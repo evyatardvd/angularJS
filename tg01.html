@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="moviesScreenApp">
+	<head>
+		<title> angularjs targil 1 </title>
+		<meta charset="UTF-8" />
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular.min.js"></script>
+	</head>
+	<body>
+		<h1> המובילים: </h1>
+
+		<div ng-controller="moviesScreenCtrl">
+			<div>
+				<input ng-model="findMovie">
+				חיפוש
+				<br/>
+				מיין לפי
+				<select ng-model="orderProp">
+					<option value="name">שם</option>
+					<option value="len">אורך</option>
+				</select>
+
+				<ul ng-repeat="movie in movies | orderBy: orderProp | filter:findMovie" style="border:1px solid">
+					
+					<li>
+						<xf></xf>
+					</li>
+
+					
+				</ul>
+			</div>
+
+		</div>
+
+		<script>
+			var app = angular.module("moviesScreenApp", []);
+
+			app.controller('moviesScreenCtrl', function($scope, $http) {
+				$http.get("movies.json").then(function(res) {
+
+					$scope.movies = res.data;
+
+				});
+			});
+			app.directive("xf", function() {
+				return {
+					restrict : 'E',
+					template : "Name: <a href={{movie.actorImdb}}>{{movie.name}} </a> <br/> Length:{{movie.len}} <br/> Actor:{{movie.actor}}  <br/> Director:{{movie.director}} "
+				};
+
+			});
+
+		</script>
+	</body>
+</html>
